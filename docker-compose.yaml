@@ -1,0 +1,8 @@
+version: '3'
+services:
+  php-fpm:
+    build: './docker/php-fpm'
+    volumes:
+      - './:/app'
+    ports:
+      - '80:8000'
