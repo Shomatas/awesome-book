@@ -2,6 +2,8 @@
 
 namespace App\Domain\Book\Factory\DTO;
 
+use App\Domain\Book\DTO\BookRegistrationDto;
+
 readonly class BookFactoryDto
 {
     public function __construct(
@@ -12,5 +14,18 @@ readonly class BookFactoryDto
         public ?string $genre,
     )
     {
+    }
+
+    public static function createFromBookRegistrationDto(
+        BookRegistrationDto $bookRegistrationDto,
+    ): self
+    {
+        return new BookFactoryDto(
+            $bookRegistrationDto->name,
+            $bookRegistrationDto->author,
+            $bookRegistrationDto->publisher,
+            $bookRegistrationDto->year,
+            $bookRegistrationDto->genre,
+        );
     }
 }
