@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Domain\Book;
+
 use Symfony\Component\Uid\Uuid;
 
 class Book
