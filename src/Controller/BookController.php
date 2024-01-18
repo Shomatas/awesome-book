@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Domain\Book\Store\BookEraserInterface;
 use App\Domain\Book\Store\BookGetterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Domain\Book\BookRegistration;
@@ -17,6 +18,7 @@ use Symfony\Component\Uid\Uuid;
 class BookController extends AbstractController
 {
     public function __construct(
+        readonly private BookEraserInterface $bookEraser,
         readonly private BookGetterInterface $bookGetter,
         readonly private BookRegistration $bookRegistration,
     ) {}
@@ -65,7 +67,11 @@ class BookController extends AbstractController
         Uuid $id,
     ): Response
     {
-        // Заглушка для метода удаления книги
-        return new Response("Delete Book {$id}");
+        try {
+            $this->bookEraser->delete($id);
+            return new Response("Кника с идентификатором {$id} удалена!");
+        } catch (\Throwable $exception) {
+            return new Response('Ошибка на стороне сервера', 500);
+        }
     }
 }
