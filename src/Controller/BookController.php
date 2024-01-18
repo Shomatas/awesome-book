@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Domain\Book\Store\BookGetterInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Domain\Book\BookRegistration;
 use App\Domain\Book\DTO\BookRegistrationDto;
 use App\Domain\Exception\DomainException;
@@ -15,20 +17,22 @@ use Symfony\Component\Uid\Uuid;
 class BookController extends AbstractController
 {
     public function __construct(
+        readonly private BookGetterInterface $bookGetter,
         readonly private BookRegistration $bookRegistration,
-    )
-    {
-    }
+    ) {}
 
     #[Route(
-        path: '/',
+        path: '',
         name: 'get_books',
         methods: ['GET'],
     )]
     public function getBooks(): Response
     {
-        // Заглушка для метода получения книг
-        return new Response('Get Books');
+        try {
+            return new JsonResponse($this->bookGetter->getAll()->getArray());
+        } catch (\Throwable $exception) {
+            return new Response('Ошибка на стороне сервера', 500);
+        }
     }
 
     #[Route(
