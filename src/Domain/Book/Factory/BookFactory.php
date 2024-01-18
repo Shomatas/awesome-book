@@ -9,7 +9,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-readonly class BookFactory
+class BookFactory
 {
     public function __construct(
         private ValidatorInterface $validator,

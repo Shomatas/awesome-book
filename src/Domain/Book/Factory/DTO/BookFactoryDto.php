@@ -2,6 +2,7 @@
 
 namespace App\Domain\Book\Factory\DTO;
 
+use App\Domain\Book\DTO\BookRegistrationDto;
 use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class BookFactoryDto
@@ -17,5 +18,18 @@ readonly class BookFactoryDto
         public ?string $genre,
     )
     {
+    }
+
+    public static function createFromBookRegistrationDto(
+        BookRegistrationDto $bookRegistrationDto,
+    ): self
+    {
+        return new BookFactoryDto(
+            $bookRegistrationDto->name,
+            $bookRegistrationDto->author,
+            $bookRegistrationDto->publisher,
+            $bookRegistrationDto->year,
+            $bookRegistrationDto->genre,
+        );
     }
 }
