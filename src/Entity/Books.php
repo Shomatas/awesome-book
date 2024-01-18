@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Domain\Book\Store\DTO\BookSaveDto;
 use App\Repository\BooksRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -9,24 +10,30 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity(repositoryClass: BooksRepository::class)]
 class Books
 {
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $author = null;
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\Column(type: 'uuid')]
+        private ?Uuid   $id = null,
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $publisher = null;
+        #[ORM\Column(length: 255)]
+        private ?string $name = null,
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $year = null;
+        #[ORM\Column(length: 255, nullable: true)]
+        private ?string $author = null,
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $genre = null;
+        #[ORM\Column(length: 255, nullable: true)]
+        private ?string $publisher = null,
+
+        #[ORM\Column(length: 255, nullable: true)]
+        private ?string $year = null,
+
+        #[ORM\Column(length: 255, nullable: true)]
+        private ?string $genre = null,
+    )
+    {
+    }
 
     public function getId(): ?Uuid
     {
@@ -98,5 +105,17 @@ class Books
         $this->genre = $genre;
 
         return $this;
+    }
+
+    public static function createFromBookSaveDto(BookSaveDto $bookSaveDto): self
+    {
+        return new Books(
+            $bookSaveDto->id,
+            $bookSaveDto->name,
+            $bookSaveDto->author,
+            $bookSaveDto->publisher,
+            $bookSaveDto->year,
+            $bookSaveDto->genre,
+        );
     }
 }
