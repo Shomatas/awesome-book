@@ -17,17 +17,17 @@ readonly class BookFactory
     {
     }
 
-    public function create(BookFactoryDto $userFactoryDto): Book
+    public function create(BookFactoryDto $bookFactoryDto): Book
     {
-        $violationList = $this->validator->validate($userFactoryDto);
+        $violationList = $this->validator->validate($bookFactoryDto);
         $this->throwExistingMistakes($violationList);
         return new Book(
             Uuid::v1(),
-            $userFactoryDto->name,
-            $userFactoryDto->author,
-            $userFactoryDto->publisher,
-            $userFactoryDto->year,
-            $userFactoryDto->genre,
+            $bookFactoryDto->name,
+            $bookFactoryDto->author,
+            $bookFactoryDto->publisher,
+            $bookFactoryDto->year,
+            $bookFactoryDto->genre,
         );
     }
 
