@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Domain\Book\Store\BookGetterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Uid\Uuid;
@@ -10,15 +12,22 @@ use Symfony\Component\Uid\Uuid;
 #[Route('/books')]
 class BookController extends AbstractController
 {
+    public function __construct(
+        readonly private BookGetterInterface $bookGetter,
+    ) {}
+
     #[Route(
-        path: '/',
+        path: '',
         name: 'get_books',
         methods: ['GET'],
     )]
     public function getBooks(): Response
     {
-        // Заглушка для метода получения книг
-        return new Response('Get Books');
+        try {
+            return new JsonResponse($this->bookGetter->getAll()->getArray());
+        } catch (\Throwable $exception) {
+            return new Response('Ошибка на стороне сервера', 500);
+        }
     }
 
     #[Route(
