@@ -3,7 +3,13 @@
 namespace App\Controller;
 
 use App\Domain\Book\Store\BookEraserInterface;
+use App\Domain\Book\Store\BookGetterInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Domain\Book\BookRegistration;
+use App\Domain\Book\DTO\BookRegistrationDto;
+use App\Domain\Exception\DomainException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Uid\Uuid;
@@ -13,29 +19,43 @@ class BookController extends AbstractController
 {
     public function __construct(
         readonly private BookEraserInterface $bookEraser,
+        readonly private BookGetterInterface $bookGetter,
+        readonly private BookRegistration $bookRegistration,
     ) {}
+
     #[Route(
-        path: '/',
+        path: '',
         name: 'get_books',
         methods: ['GET'],
     )]
     public function getBooks(): Response
     {
-        // Заглушка для метода получения книг
-        return new Response('Get Books');
+        try {
+            return new JsonResponse($this->bookGetter->getAll()->getArray());
+        } catch (\Throwable $exception) {
+            return new Response('Ошибка на стороне сервера', 500);
+        }
     }
 
     #[Route(
-        path: '/{id}',
+        path: '',
         name: 'post_book',
         methods: ['POST']
     )]
     public function postBook(
-        Uuid $id,
+        // TODO: временное решение, в будущем добавить кастомный resolver
+        #[MapRequestPayload] BookRegistrationDto $bookRegistrationDto,
     ): Response
     {
-        // Заглушка для метода добавления книги
-        return new Response("Post Book {$id}");
+        try {
+            $this->bookRegistration->register($bookRegistrationDto);
+            return new Response('Успешная регистрация');
+        } catch (DomainException $exception) {
+            // TODO: обработать более подробно
+            return new Response('Ошибка на уровне домена', 500);
+        } catch (\Throwable $exception) {
+            return new Response('Ошибка на уровне реализации', 500);
+        }
     }
 
     #[Route(
