@@ -2,7 +2,7 @@
 ## Установка и использование
 Для запуска проекта необходимо склонировать данный репозиторий
 ```
-git clone https://gitlab.com/paff2/awesome-book.git
+git clone https://github.com/Shomatas/awesome-book.git
 ```
 Далее в папке с проектом нужно переключиться на ветку development
 ```
