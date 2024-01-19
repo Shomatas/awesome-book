@@ -16,6 +16,10 @@ docker-compose up -d
 ```
 docker-compose exec -it awesome-book symfony composer install
 ```
+Выполните миграцию
+```
+docker-compose exec -it awesome-book symfony console doctrine:migrations:migrate
+```
 Проект готов к запуску. Для запуска необходимо запустить внутри контейнера awesome-book symfony-сервер
 ```
 docker-compose exec -it awesome-book symfony server:start -d
