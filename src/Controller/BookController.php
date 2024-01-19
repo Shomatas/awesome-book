@@ -49,7 +49,7 @@ class BookController extends AbstractController
     {
         try {
             $this->bookRegistration->register($bookRegistrationDto);
-            return new Response('Успешная регистрация');
+            return new Response('Успешная регистрация', 201);
         } catch (DomainException $exception) {
             // TODO: обработать более подробно
             return new Response('Ошибка на уровне домена', 500);
