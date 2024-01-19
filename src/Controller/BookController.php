@@ -30,11 +30,11 @@ class BookController extends AbstractController
     )]
     public function getBooks(): Response
     {
-        // try {
+         try {
             return new JsonResponse($this->bookGetter->getAll()->getArray());
-        // } catch (\Throwable $exception) {
-        //     return new Response('Ошибка на стороне сервера', 500);
-        // }
+         } catch (\Throwable $exception) {
+             return new Response('Ошибка на стороне сервера', 500);
+         }
     }
 
     #[Route(
