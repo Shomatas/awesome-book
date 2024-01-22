@@ -9,7 +9,7 @@ readonly class BookFactoryDto
 {
     public function __construct(
         #[Assert\NotBlank]
-        public string $name,
+        public ?string $name = null,
         public ?string $author = null,
         public ?string $publisher = null,
         #[Assert\GreaterThan(0)]

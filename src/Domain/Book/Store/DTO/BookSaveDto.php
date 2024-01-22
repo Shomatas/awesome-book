@@ -8,12 +8,12 @@ use Symfony\Component\Uid\Uuid;
 readonly class BookSaveDto
 {
     public function __construct(
-        public Uuid $id,
-        public string $name,
-        public ?string $author,
-        public ?string $publisher,
-        public ?int $year,
-        public ?string $genre,
+        public ?Uuid $id = null,
+        public ?string $name = null,
+        public ?string $author = null,
+        public ?string $publisher = null,
+        public ?int $year = null,
+        public ?string $genre = null,
     ) {}
 
     public static function createFromBook(Book $book): self

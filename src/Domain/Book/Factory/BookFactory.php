@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class BookFactory
 {
     public function __construct(
-        private ValidatorInterface $validator,
+        readonly private ?ValidatorInterface $validator = null,
     )
     {
     }
