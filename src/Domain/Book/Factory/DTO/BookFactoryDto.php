@@ -9,13 +9,13 @@ readonly class BookFactoryDto
 {
     public function __construct(
         #[Assert\NotBlank]
-        public string $name,
-        public ?string $author,
-        public ?string $publisher,
+        public ?string $name = null,
+        public ?string $author = null,
+        public ?string $publisher = null,
         #[Assert\GreaterThan(0)]
         #[Assert\LessThanOrEqual(2024)]
-        public ?int $year,
-        public ?string $genre,
+        public ?int $year = null,
+        public ?string $genre = null,
     )
     {
     }

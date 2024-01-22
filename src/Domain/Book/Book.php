@@ -7,12 +7,12 @@ use Symfony\Component\Uid\Uuid;
 class Book
 {
     public function __construct(
-        private Uuid $id,
-        private string $name,
-        private ?string $author,
-        private ?string $publisher,
-        private ?int $year,
-        private ?string $genre,
+        private ?Uuid $id = null,
+        private ?string $name = null,
+        private ?string $author = null,
+        private ?string $publisher = null,
+        private ?int $year = null,
+        private ?string $genre = null,
     ) {}
 
     public function getId(): Uuid
